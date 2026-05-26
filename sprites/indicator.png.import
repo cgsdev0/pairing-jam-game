@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c50nnwoajloyt"
-path="res://.godot/imported/acorn.png-22b972beb5eafedd09937f735d6795b2.ctex"
+uid="uid://dyehx3euu61da"
+path="res://.godot/imported/indicator.png-75c87871304deed69676b02ac20a1dd3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://acorn.png"
-dest_files=["res://.godot/imported/acorn.png-22b972beb5eafedd09937f735d6795b2.ctex"]
+source_file="res://sprites/indicator.png"
+dest_files=["res://.godot/imported/indicator.png-75c87871304deed69676b02ac20a1dd3.ctex"]
 
 [params]
 

@@ -1,9 +1,15 @@
 [gd_scene format=3 uid="uid://cqow47bch5ocs"]
 
 [ext_resource type="Script" uid="uid://mf66bxpxm1ae" path="res://scripts/dino.gd" id="1_0xm2m"]
-[ext_resource type="Texture2D" uid="uid://dbgxj6m24sldx" path="res://scripts/dino-sheet.png" id="3_1bvp3"]
-[ext_resource type="Texture2D" uid="uid://bg121fipti3np" path="res://grid.png" id="4_1bvp3"]
-[ext_resource type="Script" uid="uid://dwcfno2hlvnwp" path="res://player_cursor.gd" id="4_lquwl"]
+[ext_resource type="Texture2D" uid="uid://dbgxj6m24sldx" path="res://sprites/dino-sheet.png" id="3_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://bg121fipti3np" path="res://sprites/grid.png" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://dwcfno2hlvnwp" path="res://scripts/player_cursor.gd" id="4_lquwl"]
+[ext_resource type="Texture2D" uid="uid://cttas6s4uxdrt" path="res://sprites/cursor.png" id="5_lquwl"]
+[ext_resource type="Texture2D" uid="uid://dyehx3euu61da" path="res://sprites/indicator.png" id="6_5vw27"]
+[ext_resource type="FontFile" uid="uid://b2stm6dadjfca" path="res://sprites/m5x7.ttf" id="7_272bh"]
+[ext_resource type="Script" uid="uid://b70634bgvput7" path="res://scripts/timer.gd" id="8_4c57u"]
+[ext_resource type="Script" uid="uid://c82a1exr32m2y" path="res://scripts/score.gd" id="8_5vw27"]
+[ext_resource type="Script" uid="uid://bkip82drqrpgg" path="res://scripts/game_end.gd" id="9_kek77"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7mycd"]
 atlas = ExtResource("3_1bvp3")
@@ -41,23 +47,178 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_lquwl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cursor:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 0.78431374)]
+}
+
+[sub_resource type="Animation" id="Animation_7mycd"]
+resource_name = "flash"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cursor:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.78431374), Color(1, 1, 1, 0.39215687), Color(1, 1, 1, 0.78431374)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_272bh"]
+_data = {
+&"RESET": SubResource("Animation_lquwl"),
+&"flash": SubResource("Animation_7mycd")
+}
+
 [node name="Node2D" type="Node" unique_id=422408999]
 
 [node name="Grid" type="Sprite2D" parent="." unique_id=1355401452]
+texture_filter = 1
 position = Vector2(160, 120)
 texture = ExtResource("4_1bvp3")
 
 [node name="Dino" type="Node2D" parent="." unique_id=1563644702]
 position = Vector2(160, 140)
 script = ExtResource("1_0xm2m")
-coords = Vector2i(3, 0)
+coords = Vector2i(3, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Dino" unique_id=437254984]
-position = Vector2(1, 1)
+texture_filter = 1
+position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_4c57u")
 centered = false
 
+[node name="Acorns" type="Node" parent="." unique_id=1507812866]
+unique_name_in_owner = true
+
 [node name="PlayerCursor" type="Node2D" parent="." unique_id=14975526]
 script = ExtResource("4_lquwl")
+coords = Vector2i(0, 1)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PlayerCursor" unique_id=393841981]
+[node name="Cursor" type="Sprite2D" parent="PlayerCursor" unique_id=923186216]
+modulate = Color(1, 0, 0, 0.78431374)
+self_modulate = Color(1, 0, 0, 1)
+z_index = 10
+texture_filter = 1
+texture = ExtResource("5_lquwl")
+centered = false
+
+[node name="Indicator" type="Sprite2D" parent="PlayerCursor" unique_id=10490866]
+visible = false
+z_index = -10
+texture = ExtResource("6_5vw27")
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerCursor" unique_id=327983539]
+libraries/ = SubResource("AnimationLibrary_272bh")
+
+[node name="PlayerCursor2" type="Node2D" parent="." unique_id=592175648]
+script = ExtResource("4_lquwl")
+coords = Vector2i(0, 1)
+player = 2
+
+[node name="Cursor" type="Sprite2D" parent="PlayerCursor2" unique_id=1388249349]
+modulate = Color(1, 0, 0, 0.78431374)
+self_modulate = Color(1, 0, 0, 1)
+z_index = 10
+texture_filter = 1
+texture = ExtResource("5_lquwl")
+centered = false
+
+[node name="Indicator" type="Sprite2D" parent="PlayerCursor2" unique_id=1984047938]
+visible = false
+z_index = -10
+texture = ExtResource("6_5vw27")
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerCursor2" unique_id=1191739317]
+libraries/ = SubResource("AnimationLibrary_272bh")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1593058523]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 19.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect" unique_id=1611420533]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="Label2" type="Label" parent="ColorRect/MarginContainer" unique_id=1142365599]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_272bh")
+theme_override_font_sizes/font_size = 16
+text = "Time left: 30"
+vertical_alignment = 1
+script = ExtResource("8_4c57u")
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer" unique_id=492580966]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_272bh")
+theme_override_font_sizes/font_size = 16
+text = "Score: 1"
+horizontal_alignment = 2
+vertical_alignment = 1
+script = ExtResource("8_5vw27")
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=1715139196]
+visible = false
+z_index = 100
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("9_kek77")
+
+[node name="Label" type="Label" parent="ColorRect2" unique_id=1972079429]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_272bh")
+theme_override_font_sizes/font_size = 32
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="ColorRect2" unique_id=574403047]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_272bh")
+theme_override_font_sizes/font_size = 16
+text = "Score: 1  "
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("8_5vw27")

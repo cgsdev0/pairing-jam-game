@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bg121fipti3np"
-path="res://.godot/imported/grid.png-9bb66f80dbdd793fb4bb275a0d999fdf.ctex"
+uid="uid://dbgxj6m24sldx"
+path="res://.godot/imported/dino-sheet.png-8ae0996f70c9ba1cfac8bff57218b113.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://grid.png"
-dest_files=["res://.godot/imported/grid.png-9bb66f80dbdd793fb4bb275a0d999fdf.ctex"]
+source_file="res://sprites/dino-sheet.png"
+dest_files=["res://.godot/imported/dino-sheet.png-8ae0996f70c9ba1cfac8bff57218b113.ctex"]
 
 [params]
 

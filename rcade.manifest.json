@@ -1,18 +1,24 @@
 {
   "$schema": "https://rcade.dev/manifest.schema.json",
-  "name": "game_1",
-  "display_name": "game_1",
-  "description": "we don't know yet",
+  "name": "dina-dino",
+  "display_name": "Dina The Dino",
+  "description": "feed the dino",
   "visibility": "public",
   "authors": [
-    {
-      "display_name": "sarah"
-    }
+	{
+	  "display_name": "sarah"
+	},
+	{
+	  "display_name": "astro"
+	},
+	{
+	  "display_name": "misha"
+	}
   ],
   "dependencies": [
-    {
-      "name": "@rcade/input-classic",
-      "version": "1.0.0"
-    }
+	{
+	  "name": "@rcade/input-classic",
+	  "version": "1.0.0"
+	}
   ]
 }
