@@ -1,14 +1,63 @@
 [gd_scene format=3 uid="uid://cqow47bch5ocs"]
 
-[ext_resource type="Script" uid="uid://mf66bxpxm1ae" path="res://scripts/player.gd" id="1_0xm2m"]
-[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://mf66bxpxm1ae" path="res://scripts/dino.gd" id="1_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://dbgxj6m24sldx" path="res://scripts/dino-sheet.png" id="3_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://bg121fipti3np" path="res://grid.png" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://dwcfno2hlvnwp" path="res://player_cursor.gd" id="4_lquwl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mycd"]
+atlas = ExtResource("3_1bvp3")
+region = Rect2(0, 0, 19, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_272bh"]
+atlas = ExtResource("3_1bvp3")
+region = Rect2(19, 0, 19, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vw27"]
+atlas = ExtResource("3_1bvp3")
+region = Rect2(38, 0, 19, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kek77"]
+atlas = ExtResource("3_1bvp3")
+region = Rect2(57, 0, 19, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4c57u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mycd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_272bh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vw27")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kek77")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Node2D" type="Node" unique_id=422408999]
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1727476714]
-position = Vector2(161, 141)
-script = ExtResource("1_0xm2m")
+[node name="Grid" type="Sprite2D" parent="." unique_id=1355401452]
+position = Vector2(160, 120)
+texture = ExtResource("4_1bvp3")
 
-[node name="Icon" type="Sprite2D" parent="CharacterBody2D" unique_id=1138456137]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_ig7tw")
+[node name="Dino" type="Node2D" parent="." unique_id=1563644702]
+position = Vector2(160, 140)
+script = ExtResource("1_0xm2m")
+coords = Vector2i(3, 0)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Dino" unique_id=437254984]
+position = Vector2(1, 1)
+sprite_frames = SubResource("SpriteFrames_4c57u")
+centered = false
+
+[node name="PlayerCursor" type="Node2D" parent="." unique_id=14975526]
+script = ExtResource("4_lquwl")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PlayerCursor" unique_id=393841981]
