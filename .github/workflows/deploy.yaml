@@ -25,5 +25,6 @@ jobs:
           relative_project_path: ./
           relative_export_path: dist
           export_debug: false
+      - run: mv dist/rcade/* dist/.
       - name: Deploy to RCade
         uses: fcjr/rcade/action-deploy@main
