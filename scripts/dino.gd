@@ -5,7 +5,7 @@ extends Node2D
 func is_valid(coords: Vector2i):
 	return func(direction: Vector2i):
 		var new_coords = coords + direction
-		if new_coords.x < 0 or new_coords.x >= 16 or new_coords.y < 1 or new_coords.y >= 12:
+		if new_coords.x < Grid.bounds[0].x or new_coords.x > Grid.bounds[1].x or new_coords.y < Grid.bounds[0].y or new_coords.y > Grid.bounds[1].y:
 			return false
 		else:
 			return true

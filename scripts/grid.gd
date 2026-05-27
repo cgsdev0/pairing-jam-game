@@ -4,6 +4,7 @@ extends Node
 var scores = [0, 0]
 var streaks = [0, 0]
 
+var bounds = [Vector2i(2, 2), Vector2i(13, 9)]
 var game_over = false
 signal game_end
 

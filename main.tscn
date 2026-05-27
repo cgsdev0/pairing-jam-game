@@ -58,44 +58,49 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Grid" type="Sprite2D" parent="." unique_id=1355401452]
+[node name="Node2D" type="Node2D" parent="." unique_id=503515628]
+position = Vector2(0, 8)
+
+[node name="Grid" type="Sprite2D" parent="Node2D" unique_id=1355401452]
 modulate = Color(0.7708395, 0.77083945, 0.77083945, 1)
 texture_filter = 1
 position = Vector2(160, 120)
 texture = ExtResource("4_1bvp3")
 
-[node name="Dino" type="Node2D" parent="." unique_id=1563644702]
+[node name="Dino" type="Node2D" parent="Node2D" unique_id=1563644702]
 position = Vector2(160, 140)
 script = ExtResource("1_0xm2m")
-coords = Vector2i(3, 1)
+coords = Vector2i(7, 7)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Dino" unique_id=437254984]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Node2D/Dino" unique_id=437254984]
 texture_filter = 1
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_4c57u")
 centered = false
 
-[node name="Move" type="AudioStreamPlayer" parent="Dino" unique_id=620728310]
+[node name="Move" type="AudioStreamPlayer" parent="Node2D/Dino" unique_id=620728310]
 stream = ExtResource("4_4c57u")
 
-[node name="Eat" type="AudioStreamPlayer" parent="Dino" unique_id=1193957038]
+[node name="Eat" type="AudioStreamPlayer" parent="Node2D/Dino" unique_id=1193957038]
 stream = ExtResource("5_efxa6")
 
-[node name="Acorns" type="Node" parent="." unique_id=1507812866]
+[node name="Acorns" type="Node2D" parent="Node2D" unique_id=1327439369]
 unique_name_in_owner = true
 
-[node name="PlayerCursor" parent="." unique_id=917928345 instance=ExtResource("4_5vw27")]
+[node name="PlayerCursor" parent="Node2D" unique_id=917928345 instance=ExtResource("4_5vw27")]
+coords = Vector2i(2, 2)
 
-[node name="PlayerCursor2" parent="." unique_id=168372173 instance=ExtResource("4_5vw27")]
-coords = Vector2i(15, 1)
+[node name="PlayerCursor2" parent="Node2D" unique_id=168372173 instance=ExtResource("4_5vw27")]
+coords = Vector2i(13, 2)
 player = 2
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1593058523]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 19.0
+offset_top = 14.0
+offset_bottom = 33.0
 grow_horizontal = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0)
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect" unique_id=1611420533]
 layout_mode = 1

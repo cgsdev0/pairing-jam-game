@@ -9,9 +9,9 @@ var t: Tween
 var prefix
 func move(direction: Vector2i) -> void:
 	var next = coords + direction
-	if next.x < 0 or next.x > 15:
+	if next.x < Grid.bounds[0].x or next.x > Grid.bounds[1].x:
 		direction.x = 0
-	if next.y < 1 or next.y > 11:
+	if next.y < Grid.bounds[0].y or next.y > Grid.bounds[1].y:
 		direction.y = 0
 	if direction == Vector2i.ZERO:
 		return
