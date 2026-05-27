@@ -4,9 +4,17 @@ extends Node2D
 
 @export var player: int = 1
 
+const DROP_MAX = 3
 var t: Tween
 var prefix
 func move(direction: Vector2i) -> void:
+	var next = coords + direction
+	if next.x < 0 or next.x > 15:
+		direction.x = 0
+	if next.y < 1 or next.y > 11:
+		direction.y = 0
+	if direction == Vector2i.ZERO:
+		return
 	coords += direction
 	t = create_tween()
 	t.tween_property(self, "position", coords * 20.0, 0.05)
@@ -15,32 +23,35 @@ func move(direction: Vector2i) -> void:
 
 var Acorns
 func _ready() -> void:
+	position = coords * 20.0
 	Acorns = get_parent().get_node("%Acorns")
 	if player == 1:
 		$Cursor.self_modulate = Color.HOT_PINK
+		$Cursor2.self_modulate = Color.HOT_PINK
 		$Indicator.self_modulate = Color.HOT_PINK
 		prefix = "p1_"
 	else:
 		$Cursor.self_modulate = Color.CYAN
+		$Cursor2.self_modulate = Color.CYAN
 		$Indicator.self_modulate = Color.CYAN
 		prefix = "p2_"
 	$AnimationPlayer.play("flash")
 
 var ACORN_SCENE = preload("res://scenes/acorn.tscn")
 
-var dropping = false
+var dropping = 0
 func drop_food():
-	if dropping:
+	if dropping >= DROP_MAX:
 		return
 	
 	if !Grid.is_empty(coords):
 		return
 	
-	$Fall.pitch_scale = randf_range(0.8, 1.2)
+	$Fall.pitch_scale = randf_range(0.92, 1.1)
 	$Fall.play()
 	Grid.grid[coords.y][coords.x] = Grid.Cell.PENDING
 	
-	dropping = true
+	dropping += 1
 	
 	var acorn = ACORN_SCENE.instantiate()
 	acorn.color = $Cursor.self_modulate
@@ -50,17 +61,14 @@ func drop_food():
 	
 	
 	await acorn.dropped
-	dropping = false
+	dropping -= 1
 	
 func take_food():
-	if dropping:
-		return
 	if !Grid.is_food(coords):
 		return
 	var g = Grid.grid[coords.y][coords.x]
 	if g == player:
 		return
-	dropping = true
 	Grid.grid[coords.y][coords.x] = Grid.Cell.PENDING
 	for acorn in %Acorns.get_children():
 			if acorn.coords == coords:
@@ -69,9 +77,11 @@ func take_food():
 				acorn.steal()
 				$Steal.play()
 				await acorn.stolen
-	dropping = false
+	Grid.grid[coords.y][coords.x] = Grid.Cell.EMPTY
 				
 func _process(delta: float) -> void:
+	$Cursor.visible =  dropping < DROP_MAX
+	$Cursor2.visible = !$Cursor.visible
 	if Grid.game_over:
 		return
 	var direction = Input.get_vector(prefix + "left", prefix + "right", prefix + "up", prefix + "down")

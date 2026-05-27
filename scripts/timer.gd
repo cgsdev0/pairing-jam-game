@@ -7,7 +7,7 @@ func _ready() -> void:
 	timer = Timer.new()
 	add_child(timer)
 	timer.one_shot = true
-	timer.start(100)
+	timer.start(60)
 	timer.timeout.connect(on_timer)
 	
 func on_timer():
