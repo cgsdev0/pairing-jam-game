@@ -54,7 +54,7 @@ func move(direction: Vector2i) -> void:
 				p = acorn.player
 				acorn.queue_free()
 				var added = Grid.add_score(p)
-				var pitch = (added - 1) / 8.0 + 1.0
+				var pitch = (added - 1) / 12.0 + 1.0
 				$Eat.pitch_scale = pitch
 				$Eat.play()
 				spawn_text(p, added)

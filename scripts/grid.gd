@@ -20,7 +20,7 @@ func add_score(player):
 	var other = int(!(player - 1))
 	streaks[other] = 0
 	streaks[player - 1] += 1
-	streaks[player - 1] = min(streaks[player - 1], 5)
+	streaks[player - 1] = min(streaks[player - 1], 9)
 	scores[player - 1] += streaks[player - 1]
 	return streaks[player - 1]
 
