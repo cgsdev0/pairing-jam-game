@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://mf66bxpxm1ae" path="res://scripts/dino.gd" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://dbgxj6m24sldx" path="res://sprites/dino-sheet.png" id="3_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://bg121fipti3np" path="res://sprites/grid.png" id="4_1bvp3"]
-[ext_resource type="Script" uid="uid://dwcfno2hlvnwp" path="res://scripts/player_cursor.gd" id="4_lquwl"]
-[ext_resource type="Texture2D" uid="uid://cttas6s4uxdrt" path="res://sprites/cursor.png" id="5_lquwl"]
-[ext_resource type="Texture2D" uid="uid://dyehx3euu61da" path="res://sprites/indicator.png" id="6_5vw27"]
+[ext_resource type="AudioStream" uid="uid://cmkyyf7qtvj6w" path="res://audio/move.wav" id="4_4c57u"]
+[ext_resource type="PackedScene" uid="uid://bg4ou0d4g5m85" path="res://scenes/player_cursor.tscn" id="4_5vw27"]
+[ext_resource type="AudioStream" uid="uid://1su0fy78pmon" path="res://audio/eat.wav" id="5_efxa6"]
 [ext_resource type="FontFile" uid="uid://b2stm6dadjfca" path="res://sprites/m5x7.ttf" id="7_272bh"]
 [ext_resource type="Script" uid="uid://b70634bgvput7" path="res://scripts/timer.gd" id="8_4c57u"]
 [ext_resource type="Script" uid="uid://c82a1exr32m2y" path="res://scripts/score.gd" id="8_5vw27"]
@@ -47,47 +47,19 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Animation" id="Animation_lquwl"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cursor:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 0, 0, 0.78431374)]
-}
-
-[sub_resource type="Animation" id="Animation_7mycd"]
-resource_name = "flash"
-length = 2.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cursor:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0.78431374), Color(1, 1, 1, 0.39215687), Color(1, 1, 1, 0.78431374)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_272bh"]
-_data = {
-&"RESET": SubResource("Animation_lquwl"),
-&"flash": SubResource("Animation_7mycd")
-}
-
 [node name="Node2D" type="Node" unique_id=422408999]
 
+[node name="ColorRect3" type="ColorRect" parent="." unique_id=1252700572]
+z_index = -100
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="Grid" type="Sprite2D" parent="." unique_id=1355401452]
+modulate = Color(0.7708395, 0.77083945, 0.77083945, 1)
 texture_filter = 1
 position = Vector2(160, 120)
 texture = ExtResource("4_1bvp3")
@@ -103,51 +75,20 @@ position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_4c57u")
 centered = false
 
+[node name="Move" type="AudioStreamPlayer" parent="Dino" unique_id=620728310]
+stream = ExtResource("4_4c57u")
+
+[node name="Eat" type="AudioStreamPlayer" parent="Dino" unique_id=1193957038]
+stream = ExtResource("5_efxa6")
+
 [node name="Acorns" type="Node" parent="." unique_id=1507812866]
 unique_name_in_owner = true
 
-[node name="PlayerCursor" type="Node2D" parent="." unique_id=14975526]
-script = ExtResource("4_lquwl")
-coords = Vector2i(0, 1)
+[node name="PlayerCursor" parent="." unique_id=917928345 instance=ExtResource("4_5vw27")]
 
-[node name="Cursor" type="Sprite2D" parent="PlayerCursor" unique_id=923186216]
-modulate = Color(1, 0, 0, 0.78431374)
-self_modulate = Color(1, 0, 0, 1)
-z_index = 10
-texture_filter = 1
-texture = ExtResource("5_lquwl")
-centered = false
-
-[node name="Indicator" type="Sprite2D" parent="PlayerCursor" unique_id=10490866]
-visible = false
-z_index = -10
-texture = ExtResource("6_5vw27")
-centered = false
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerCursor" unique_id=327983539]
-libraries/ = SubResource("AnimationLibrary_272bh")
-
-[node name="PlayerCursor2" type="Node2D" parent="." unique_id=592175648]
-script = ExtResource("4_lquwl")
-coords = Vector2i(0, 1)
+[node name="PlayerCursor2" parent="." unique_id=168372173 instance=ExtResource("4_5vw27")]
+coords = Vector2i(15, 1)
 player = 2
-
-[node name="Cursor" type="Sprite2D" parent="PlayerCursor2" unique_id=1388249349]
-modulate = Color(1, 0, 0, 0.78431374)
-self_modulate = Color(1, 0, 0, 1)
-z_index = 10
-texture_filter = 1
-texture = ExtResource("5_lquwl")
-centered = false
-
-[node name="Indicator" type="Sprite2D" parent="PlayerCursor2" unique_id=1984047938]
-visible = false
-z_index = -10
-texture = ExtResource("6_5vw27")
-centered = false
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerCursor2" unique_id=1191739317]
-libraries/ = SubResource("AnimationLibrary_272bh")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1593058523]
 anchors_preset = 10
@@ -171,6 +112,7 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("7_272bh")
 theme_override_font_sizes/font_size = 16
 text = "Time left: 30"
+horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("8_4c57u")
 
@@ -180,6 +122,15 @@ theme_override_fonts/font = ExtResource("7_272bh")
 theme_override_font_sizes/font_size = 16
 text = "Score: 1"
 horizontal_alignment = 2
+vertical_alignment = 1
+script = ExtResource("8_5vw27")
+player = 2
+
+[node name="Label3" type="Label" parent="ColorRect/MarginContainer" unique_id=939696274]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_272bh")
+theme_override_font_sizes/font_size = 16
+text = "Score: 1"
 vertical_alignment = 1
 script = ExtResource("8_5vw27")
 
@@ -199,11 +150,28 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -32.0
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("7_272bh")
 theme_override_font_sizes/font_size = 32
 text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Winner" type="Label" parent="ColorRect2" unique_id=1121904486]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_272bh")
+theme_override_font_sizes/font_size = 32
+text = "Player 1 Wins!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -222,3 +190,20 @@ text = "Score: 1  "
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("8_5vw27")
+
+[node name="Label4" type="Label" parent="ColorRect2" unique_id=359580764]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 36.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_272bh")
+theme_override_font_sizes/font_size = 16
+text = "Score: 1  "
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("8_5vw27")
+player = 2

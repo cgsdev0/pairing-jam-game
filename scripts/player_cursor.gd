@@ -12,17 +12,17 @@ func move(direction: Vector2i) -> void:
 	t.tween_property(self, "position", coords * 20.0, 0.05)
 	t.tween_interval(0.1)
 	t.tween_callback(func(): self.t = null)
-	
+
+var Acorns
 func _ready() -> void:
+	Acorns = get_parent().get_node("%Acorns")
 	if player == 1:
-		$Cursor.self_modulate = Color.RED
-		$Indicator.self_modulate = Color.RED
+		$Cursor.self_modulate = Color.HOT_PINK
+		$Indicator.self_modulate = Color.HOT_PINK
 		prefix = "p1_"
 	else:
-		if Grid.players == 1:
-			hide()
-		$Cursor.self_modulate = Color.BLUE
-		$Indicator.self_modulate = Color.BLUE
+		$Cursor.self_modulate = Color.CYAN
+		$Indicator.self_modulate = Color.CYAN
 		prefix = "p2_"
 	$AnimationPlayer.play("flash")
 
@@ -33,27 +33,51 @@ func drop_food():
 	if dropping:
 		return
 	
-	if Grid.grid[coords.y][coords.x] == Grid.Cell.FOOD:
+	if !Grid.is_empty(coords):
 		return
 	
+	$Fall.pitch_scale = randf_range(0.8, 1.2)
+	$Fall.play()
+	Grid.grid[coords.y][coords.x] = Grid.Cell.PENDING
+	
 	dropping = true
-	$Cursor.hide()
-	$Indicator.show()
 	
 	var acorn = ACORN_SCENE.instantiate()
+	acorn.color = $Cursor.self_modulate
+	acorn.player = player
 	acorn.coords = coords
-	%Acorns.add_child(acorn)
+	Acorns.add_child(acorn)
 	
 	
 	await acorn.dropped
-	$Cursor.show()
-	$Indicator.hide()
 	dropping = false
 	
+func take_food():
+	if dropping:
+		return
+	if !Grid.is_food(coords):
+		return
+	var g = Grid.grid[coords.y][coords.x]
+	if g == player:
+		return
+	dropping = true
+	Grid.grid[coords.y][coords.x] = Grid.Cell.PENDING
+	for acorn in %Acorns.get_children():
+			if acorn.coords == coords:
+				acorn.player = player
+				acorn.color = $Cursor.self_modulate
+				acorn.steal()
+				$Steal.play()
+				await acorn.stolen
+	dropping = false
+				
 func _process(delta: float) -> void:
-	
+	if Grid.game_over:
+		return
 	var direction = Input.get_vector(prefix + "left", prefix + "right", prefix + "up", prefix + "down")
-	if t == null && !dropping:
+	if t == null:
 		move(direction * 1.5)
 	if Input.is_action_just_pressed(prefix + "a"):
 		drop_food()
+	if Input.is_action_just_pressed(prefix + "b"):
+		take_food()

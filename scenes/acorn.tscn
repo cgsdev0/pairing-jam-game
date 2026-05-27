@@ -1,12 +1,24 @@
 [gd_scene format=3 uid="uid://cbu8ryvtk5ft8"]
 
 [ext_resource type="Script" uid="uid://bq42w2pvedius" path="res://scripts/acorn.gd" id="1_gl1pk"]
+[ext_resource type="Shader" uid="uid://clhjgkgcni2ry" path="res://scripts/outline.gdshader" id="2_3pykw"]
 [ext_resource type="Texture2D" uid="uid://c50nnwoajloyt" path="res://sprites/acorn.png" id="2_xwt5n"]
+[ext_resource type="Texture2D" uid="uid://dyehx3euu61da" path="res://sprites/indicator.png" id="4_3pykw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1cqsa"]
+resource_local_to_scene = true
+shader = ExtResource("2_3pykw")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
 
 [node name="Node2D" type="Node2D" unique_id=1264082130]
 script = ExtResource("1_gl1pk")
 
 [node name="Acorn" type="Sprite2D" parent="." unique_id=25956119]
+material = SubResource("ShaderMaterial_1cqsa")
 texture = ExtResource("2_xwt5n")
 centered = false
 offset = Vector2(1, 1)
+
+[node name="Indicator" type="Sprite2D" parent="." unique_id=1809834178]
+texture = ExtResource("4_3pykw")
+centered = false
