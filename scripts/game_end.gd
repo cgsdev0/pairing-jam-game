@@ -27,6 +27,5 @@ func on_end():
 func _process(delta: float) -> void:
 	if visible && (Input.is_action_just_pressed("one_player") or Input.is_action_just_pressed("two_player")):
 		hide()
-		Grid.score = 0
 		Grid.reset()
 		get_tree().reload_current_scene()
